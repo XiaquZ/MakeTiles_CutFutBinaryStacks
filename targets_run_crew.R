@@ -1,2 +1,2 @@
 library(targets)
-tar_make(reporter = "terse")
+tar_make(reporter = "summary")
