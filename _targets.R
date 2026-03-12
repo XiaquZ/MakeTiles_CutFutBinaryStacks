@@ -20,7 +20,7 @@ tar_option_set(
   garbage_collection = 1,
   controller = crew_controller_slurm(
     name = "MakeTiles",
-    workers = 2,
+    workers = 1,
     seconds_idle = 60,
     seconds_wall = 10 * 3600,
     options_cluster = crew_options_slurm(
@@ -28,7 +28,7 @@ tar_option_set(
       cpus_per_task = 72,
       n_tasks = 1,
       memory_gigabytes_per_cpu = 3,
-      time_minutes = 10 * 60,
+      time_minutes = 5 * 60,
       partition = "batch",
       log_output = file.path(project_dir, "logs", "crew_%A.out"),
       log_error  = file.path(project_dir, "logs", "crew_%A.err"),
