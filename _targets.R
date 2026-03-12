@@ -54,7 +54,7 @@ list(
   tar_target(
     cur_files,
     list.files(
-      "I:/DATA/SDM_current/results/Binary_SpeciesCurrentAtual/",
+      "/lustre1/scratch/348/vsc34871/Binary_curActual/",
       pattern = "\\.tif$",
       full.names = TRUE
     )
@@ -62,7 +62,7 @@ list(
   tar_target(
     fut_files,
     list.files(
-      "I:/DATA/SDM_future/Binary_FutureReachableDis/",
+      "/lustre1/scratch/348/vsc34871/Binary_futActual/",
       pattern = "\\.tif$",
       full.names = TRUE
     )
@@ -74,7 +74,7 @@ list(
   tar_target(
     eu_shape,
     {
-      x <- sf::read_sf("I:/EUshap/Europe.shp")
+      x <- sf::read_sf("/lustre1/scratch/348/vsc34871/EUshap/Europe.shp")
       sf::st_buffer(x, 1)
     }
   ),
@@ -96,8 +96,8 @@ list(
       grid_sf = grid_sf,
       cur_files = matched_files$cur,
       fut_files = matched_files$fut,
-      out_dir_cur = "I:/DATA/SDM_current/results/Binary_CurrentActual_tiles/",
-      out_dir_fut = "I:/DATA/SDM_future/Binary_FutureReachable_tiles/"
+      out_dir_cur = "/lustre1/scratch/348/vsc34871/output/Binary_CurrentActual_tiles/",
+      out_dir_fut = "/lustre1/scratch/348/vsc34871/output/Binary_FutureReachable_tiles/"
     ),
     pattern = map(tile_index),
     format = "file"
