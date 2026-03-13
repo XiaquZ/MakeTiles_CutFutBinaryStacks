@@ -38,8 +38,7 @@ tar_option_set(
         "source $VSC_HOME/.bashrc",
         "source activate VoCC_R_new",
         "cd $VSC_DATA/MakeTiles_CutFutBinaryStacks",
-        "export OMP_NUM_THREADS=1",
-        "export GDAL_NUM_THREADS=1"
+        "export OMP_NUM_THREADS=1"
       )
     )
   )
