@@ -52,7 +52,6 @@ process_one_tile <- function(i, grid_sf, cur_files, fut_files, out_dir_cur, out_
   
   dir.create(out_dir_cur, recursive = TRUE, showWarnings = FALSE)
   dir.create(out_dir_fut, recursive = TRUE, showWarnings = FALSE)
-  terra::terraOptions(memfrac = 0.7, threads = 1)
 
   cur_stack <- terra::rast(cur_files)
   fut_stack <- terra::rast(fut_files)
