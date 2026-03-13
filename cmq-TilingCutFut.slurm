@@ -11,4 +11,4 @@ export OMP_NUM_THREADS=1
 
 source activate VoCC_R_new
 
-Rscript targets_run_crew.R
+Rscript targets_run_cmq.R

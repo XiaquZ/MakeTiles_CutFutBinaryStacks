@@ -5,42 +5,28 @@
 
 # Load packages required to define the pipeline:
 library(targets)
-library(crew)
-library(crew.cluster)
+library(tarchetypes) # Load other packages as needed.
+library(clustermq)
 
 ## Running on HPC with Slurm:
-project_dir <- "/vsc-hard-mounts/leuven-data/348/vsc34871/MakeTiles_CutFutBinaryStacks"
+# Settings for clustermq
+options(
+  clustermq.scheduler = "slurm",
+  clustermq.template = "./cmq.tmpl" # if using your own template
+)
 
-dir.create(file.path(project_dir, "crew_scripts"), recursive = TRUE, showWarnings = FALSE)
-dir.create(file.path(project_dir, "logs"), recursive = TRUE, showWarnings = FALSE)
+# # Running locally on Windows
+# options(clustermq.scheduler = "multiprocess")
 
 tar_option_set(
-  packages = c("terra", "sf"),
-  memory = "transient",
-  garbage_collection = 1,
-  controller = crew_controller_slurm(
-    name = "MakeTiles",
-    workers = 1,
-    seconds_idle = 60,
-    seconds_wall = 10 * 3600,
-    options_cluster = crew_options_slurm(
-      script_directory = file.path(project_dir, "crew_scripts"),
-      cpus_per_task = 4,
+  resources = tar_resources(
+    clustermq = tar_resources_clustermq(template = list(
+      job_name = "MakeTiles_CutFutBinaryStacks",
+      per_cpu_mem = "3000mb", #"3470mb"(wice thin node), #"21000mb" (genius bigmem， hugemem)"5100mb"
       n_tasks = 1,
-      memory_gigabytes_per_cpu = 12,
-      time_minutes = 10 * 60,
-      partition = "batch",
-      log_output = file.path(project_dir, "logs", "crew_%A.out"),
-      log_error  = file.path(project_dir, "logs", "crew_%A.err"),
-      script_lines = c(
-        "#SBATCH -A lp_climateplants",
-        "#SBATCH -M wice",
-        "source $VSC_HOME/.bashrc",
-        "source activate VoCC_R_new",
-        "cd $VSC_DATA/MakeTiles_CutFutBinaryStacks",
-        "export OMP_NUM_THREADS=1"
-      )
-    )
+      per_task_cpus = 72,
+      walltime = "10:00:00"
+    ))
   )
 )
 
