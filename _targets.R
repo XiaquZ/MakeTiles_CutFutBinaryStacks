@@ -25,9 +25,9 @@ tar_option_set(
     seconds_wall = 10 * 3600,
     options_cluster = crew_options_slurm(
       script_directory = file.path(project_dir, "crew_scripts"),
-      cpus_per_task = 72,
+      cpus_per_task = 4,
       n_tasks = 1,
-      memory_gigabytes_per_cpu = 3,
+      memory_gigabytes_per_cpu = 12,
       time_minutes = 10 * 60,
       partition = "batch",
       log_output = file.path(project_dir, "logs", "crew_%A.out"),
