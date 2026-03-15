@@ -1,7 +1,7 @@
 #! /bin/bash -l
 #SBATCH --job-name=MakeTiles_CutFutStacks
 #SBATCH --ntasks=1 --cpus-per-task=10 --mem-per-cpu=6000mb
-#SBATCH --time=16:35:00
+#SBATCH --time=48:35:00
 #SBATCH -A lp_climateplants
 
 source $VSC_HOME/.bashrc

@@ -25,7 +25,7 @@ tar_option_set(
       per_cpu_mem = "3000mb", #"3470mb"(wice thin node), #"21000mb" (genius bigmem， hugemem)"5100mb"
       n_tasks = 1,
       per_task_cpus = 72,
-      walltime = "10:00:00"
+      walltime = "48:00:00"
     ))
   )
 )
