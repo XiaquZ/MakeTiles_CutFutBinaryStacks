@@ -53,6 +53,14 @@ process_one_tile <- function(i, grid_sf, cur_files, fut_files, out_dir_cur, out_
   dir.create(out_dir_cur, recursive = TRUE, showWarnings = FALSE)
   dir.create(out_dir_fut, recursive = TRUE, showWarnings = FALSE)
 
+  fcur <- file.path(out_dir_cur, sprintf("tile_current_%03d.tif", i))
+  ffut <- file.path(out_dir_fut, sprintf("tile_future_%03d.tif", i))
+
+  if (file.exists(fcur) && file.exists(ffut)) {
+    message("Tile ", i, " already exists, skipping.")
+    return(c(fcur, ffut))
+  }
+
   cur_stack <- terra::rast(cur_files)
   fut_stack <- terra::rast(fut_files)
   
