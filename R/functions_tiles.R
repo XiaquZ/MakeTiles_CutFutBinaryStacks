@@ -53,12 +53,19 @@ process_one_tile <- function(i, grid_sf, cur_files, fut_files, out_dir_cur, out_
   dir.create(out_dir_cur, recursive = TRUE, showWarnings = FALSE)
   dir.create(out_dir_fut, recursive = TRUE, showWarnings = FALSE)
 
+  # If the output files already exist, skip processing.
   fcur <- file.path(out_dir_cur, sprintf("tile_current_%03d.tif", i))
   ffut <- file.path(out_dir_fut, sprintf("tile_future_%03d.tif", i))
+  fempty <- file.path(out_dir_cur, sprintf("tile_%03d.empty", i))
 
   if (file.exists(fcur) && file.exists(ffut)) {
     message("Tile ", i, " already exists, skipping.")
     return(c(fcur, ffut))
+  }
+
+  if (file.exists(fempty)) {
+    message("Tile ", i, " already known to be jointly empty, skipping.")
+    return(fempty)
   }
 
   cur_stack <- terra::rast(cur_files)
@@ -71,15 +78,14 @@ process_one_tile <- function(i, grid_sf, cur_files, fut_files, out_dir_cur, out_
   cur_tile <- terra::crop(cur_stack, e, snap = "out")
   fut_tile <- terra::crop(fut_stack, e, snap = "out")
   
-  if (is_jointly_empty(cur_tile, fut_tile)) {
-        rm(cur_tile, fut_tile)
+   if (is_jointly_empty(cur_tile, fut_tile)) {
+    rm(cur_tile, fut_tile, cur_stack, fut_stack)
     gc()
+
+    file.create(fempty)
     message("Tile ", i, " skipped (jointly empty)")
-    return(character(0))
+    return(fempty)
   }
-  
-  fcur <- file.path(out_dir_cur, sprintf("tile_current_%03d.tif", i))
-  ffut <- file.path(out_dir_fut, sprintf("tile_future_%03d.tif", i))
   
   wopt <- list(
     datatype = "INT1U",
@@ -88,7 +94,8 @@ process_one_tile <- function(i, grid_sf, cur_files, fut_files, out_dir_cur, out_
   
   terra::writeRaster(cur_tile, fcur, overwrite = TRUE, wopt = wopt)
   terra::writeRaster(fut_tile, ffut, overwrite = TRUE, wopt = wopt)
-  rm(cur_tile, fut_tile)
+  
+  rm(cur_tile, fut_tile, cur_stack, fut_stack)
   gc()
   message("Finished tile ", i)
   
