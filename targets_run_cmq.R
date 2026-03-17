@@ -1,2 +1,2 @@
 library(targets)
-tar_make_clustermq(workers = 3)
+tar_make_clustermq(workers = 12)
