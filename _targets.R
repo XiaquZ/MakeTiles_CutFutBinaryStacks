@@ -22,9 +22,9 @@ tar_option_set(
   resources = tar_resources(
     clustermq = tar_resources_clustermq(template = list(
       job_name = "MakeTiles_CutFutBinaryStacks",
-      per_cpu_mem = "3000mb", #"3470mb"(wice thin node), #"21000mb" (genius bigmem， hugemem)"5100mb"
+      per_cpu_mem = "4000mb", #"3470mb"(wice thin node), #"21000mb" (genius bigmem， hugemem)"5100mb"
       n_tasks = 1,
-      per_task_cpus = 72,
+      per_task_cpus = 16,
       walltime = "48:00:00"
     ))
   )
