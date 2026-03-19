@@ -37,11 +37,11 @@ make_tile_grid <- function(eu_shape, cellsize) {
 }
 
 is_jointly_empty <- function(r1, r2) {
-  mx1 <- suppressWarnings(terra::global(r1, "max", na.rm = TRUE)[1, ])
-  mx2 <- suppressWarnings(terra::global(r2, "max", na.rm = TRUE)[1, ])
+  n1 <- terra::global(!is.na(r1), "sum", na.rm = TRUE)[1, 1]
+  n2 <- terra::global(!is.na(r2), "sum", na.rm = TRUE)[1, 1]
   
-  empty1 <- all(is.na(mx1) | mx1 <= 0)
-  empty2 <- all(is.na(mx2) | mx2 <= 0)
+  empty1 <- is.na(n1) || n1 == 0
+  empty2 <- is.na(n2) || n2 == 0
   
   empty1 && empty2
 }
@@ -56,7 +56,7 @@ process_one_tile <- function(i, grid_sf, cur_files, fut_files, out_dir_cur, out_
   # If the output files already exist, skip processing.
   fcur <- file.path(out_dir_cur, sprintf("tile_current_%03d.tif", i))
   ffut <- file.path(out_dir_fut, sprintf("tile_future_%03d.tif", i))
-  fempty <- file.path(out_dir_cur, sprintf("tile_%03d.empty", i))
+  fempty <- file.path(out_dir_cur, sprintf("tile_pair_%03d.empty", i))
 
   if (file.exists(fcur) && file.exists(ffut)) {
     message("Tile ", i, " already exists, skipping.")
