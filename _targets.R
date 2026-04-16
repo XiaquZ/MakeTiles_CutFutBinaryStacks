@@ -16,7 +16,7 @@ options(
 tar_option_set(
   resources = tar_resources(
     clustermq = tar_resources_clustermq(template = list(
-      job_name = "MakeTiles_CutFutBinaryStacks",
+      job_name = "MakeTiles_RedList",
       per_cpu_mem = "5000mb", #"3470mb"(wice thin node), #"21000mb" (genius bigmem， hugemem)"5100mb"
       n_tasks = 1,
       per_task_cpus = 32,
@@ -34,7 +34,7 @@ list(
   tar_target(
     cur_files,
     list.files(
-      "/lustre1/scratch/348/vsc34871/Binary_curActual/",
+      "/lustre1/scratch/348/vsc34871/Binary_CurrentActual_RedList/",
       pattern = "\\.tif$",
       full.names = TRUE
     )
@@ -42,7 +42,7 @@ list(
   tar_target(
     fut_files,
     list.files(
-      "/lustre1/scratch/348/vsc34871/Binary_futActual/",
+      "/lustre1/scratch/348/vsc34871/Binary_FutureReachable_RedList/",
       pattern = "\\.tif$",
       full.names = TRUE
     )
@@ -76,8 +76,8 @@ list(
       grid_sf = grid_sf,
       cur_files = matched_files$cur,
       fut_files = matched_files$fut,
-      out_dir_cur = "/lustre1/scratch/348/vsc34871/output/Binary_CurrentActual_tiles/",
-      out_dir_fut = "/lustre1/scratch/348/vsc34871/output/Binary_FutureReachable_tiles/"
+      out_dir_cur = "/lustre1/scratch/348/vsc34871/output/Binary_CurrentActual_RedList_tiles/",
+      out_dir_fut = "/lustre1/scratch/348/vsc34871/output/Binary_FutureReachable_RedList_tiles/"
     ),
     pattern = map(tile_index),
     format = "file"
